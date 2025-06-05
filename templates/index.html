@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Muros de Mampostería</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: #0056b3;
+            text-align: center;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-section {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button,
+        .button-reset {
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        button {
+            background-color: #007bff;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-reset {
+            background-color: #6c757d;
+            text-decoration: none;
+        }
+
+        .button-reset:hover {
+            background-color: #5a6268;
+        }
+
+        .results {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .results img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .dataframe {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+
+        .dataframe,
+        .dataframe th,
+        .dataframe td {
+            border: 1px solid #ddd;
+        }
+
+        .dataframe th,
+        .dataframe td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .dataframe th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .dataframe tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Análisis de Muros de Mampostería</h1>
+
+        <form action="/" method="post">
+            <div class="form-section">
+                <h2>Geometría</h2>
+                <label for="C1_h_muro_m">Altura del muro (m):</label>
+                <input type="number" step="any" id="C1_h_muro_m" name="C1_h_muro_m"
+                    value="{{ inputs.C1_h_muro_m if inputs else 7.4 }}" required>
+
+                <label for="C2_L_muro_m">Longitud del muro (m):</label>
+                <input type="number" step="any" id="C2_L_muro_m" name="C2_L_muro_m"
+                    value="{{ inputs.C2_L_muro_m if inputs else 4.0 }}" required>
+
+                <label for="C3_em_base_mampost_cm">Espesor base mampostería (cm):</label>
+                <input type="number" step="any" id="C3_em_base_mampost_cm" name="C3_em_base_mampost_cm"
+                    value="{{ inputs.C3_em_base_mampost_cm if inputs else 24.0 }}" required>
+
+                <label for="C4_lm_largo_mampost_cm">Largo mampuesto (cm):</label>
+                <input type="number" step="any" id="C4_lm_largo_mampost_cm" name="C4_lm_largo_mampost_cm"
+                    value="{{ inputs.C4_lm_largo_mampost_cm if inputs else 37.0 }}" required>
+
+                <label for="C5_e_separacion_mamp_cm">Separación mampuestos (cm):</label>
+                <input type="number" step="any" id="C5_e_separacion_mamp_cm" name="C5_e_separacion_mamp_cm"
+                    value="{{ inputs.C5_e_separacion_mamp_cm if inputs else 5.0 }}" required>
+
+                <label for="C6_e_mampost_cm">Espesor mampuesto (cm):</label>
+                <input type="number" step="any" id="C6_e_mampost_cm" name="C6_e_mampost_cm"
+                    value="{{ inputs.C6_e_mampost_cm if inputs else 3.0 }}" required>
+
+                <label for="C24_b_conf_cm">Base confinamiento (cm):</label>
+                <input type="number" step="any" id="C24_b_conf_cm" name="C24_b_conf_cm"
+                    value="{{ inputs.C24_b_conf_cm if inputs else 30.0 }}" required>
+
+                <label for="C25_h_conf_cm">Altura confinamiento (cm):</label>
+                <input type="number" step="any" id="C25_h_conf_cm" name="C25_h_conf_cm"
+                    value="{{ inputs.C25_h_conf_cm if inputs else 30.0 }}" required>
+            </div>
+
+            <div class="form-section">
+                <h2>Materiales y Acero</h2>
+                <label for="C10_fy_kg_cm2">fy (kg/cm²):</label>
+                <input type="number" step="any" id="C10_fy_kg_cm2" name="C10_fy_kg_cm2"
+                    value="{{ inputs.C10_fy_kg_cm2 if inputs else 4200.0 }}" required>
+
+                <label for="C18_fc_kg_cm2">f'c (kg/cm²):</label>
+                <input type="number" step="any" id="C18_fc_kg_cm2" name="C18_fc_kg_cm2"
+                    value="{{ inputs.C18_fc_kg_cm2 if inputs else 210.0 }}" required>
+
+                <label for="C21_fm_kg_cm2">f'm (kg/cm²):</label>
+                <input type="number" step="any" id="C21_fm_kg_cm2" name="C21_fm_kg_cm2"
+                    value="{{ inputs.C21_fm_kg_cm2 if inputs else 80.0 }}" required>
+
+                <label for="C51_emu">ε_mu:</label>
+                <input type="number" step="any" id="C51_emu" name="C51_emu"
+                    value="{{ inputs.C51_emu if inputs else 0.0025 }}" required>
+
+                <label for="C60_Es_kg_cm2">Módulo de elasticidad del acero (kg/cm²):</label>
+                <input type="number" step="any" id="C60_Es_kg_cm2" name="C60_Es_kg_cm2"
+                    value="{{ inputs.C60_Es_kg_cm2 if inputs else 2000000.0 }}" required>
+
+                <label for="C11_fi_mm">Diámetro varilla (mm):</label>
+                <input type="number" step="any" id="C11_fi_mm" name="C11_fi_mm"
+                    value="{{ inputs.C11_fi_mm if inputs else 12.0 }}" required>
+
+                <label for="C12_Nvar_x">N° varillas en X:</label>
+                <input type="number" step="any" id="C12_Nvar_x" name="C12_Nvar_x"
+                    value="{{ inputs.C12_Nvar_x if inputs else 3 }}" required>
+
+                <label for="C13_Nvar_y">N° varillas en Y:</label>
+                <input type="number" step="any" id="C13_Nvar_y" name="C13_Nvar_y"
+                    value="{{ inputs.C13_Nvar_y if inputs else 3 }}" required>
+
+                <label for="C52_recubrimiento_cm">Recubrimiento (cm):</label>
+                <input type="number" step="any" id="C52_recubrimiento_cm" name="C52_recubrimiento_cm"
+                    value="{{ inputs.C52_recubrimiento_cm if inputs else 4.0 }}" required>
+
+                <label for="C53_fiestrib_mm">Diámetro estribo (mm):</label>
+                <input type="number" step="any" id="C53_fiestrib_mm" name="C53_fiestrib_mm"
+                    value="{{ inputs.C53_fiestrib_mm if inputs else 10.0 }}" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Calcular y Graficar</button>
+                <a href="/" class="button-reset">Reiniciar</a>
+            </div>
+        </form>
+
+        {% if results %}
+        <div class="results">
+            <h2>Resultados</h2>
+            <h3>Diagrama de Interacción</h3>
+            <img src="data:image/png;base64,{{ results.diagram_b64 }}" alt="Diagrama de Interacción">
+
+            <h3>Valores Calculados</h3>
+            {{ results.results_df|safe }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

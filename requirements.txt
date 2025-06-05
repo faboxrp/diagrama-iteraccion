@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+gunicorn          # Añadido explícitamente
+jinja2
+numpy
+pandas
+matplotlib
+python-multipart

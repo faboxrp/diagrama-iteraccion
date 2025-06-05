@@ -1,14 +1,18 @@
-# Usa una imagen base oficial de Python (es buena práctica fijar la versión)
-FROM python:3.9-alpine
+FROM python:3.9-slim-bullseye
 
-# Establece el directorio de trabajo dentro del contenedor
+ENV PIP_NO_CACHE_DIR=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libfreetype6-dev \
+    libpng-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-RUN apk add --no-cache build-base freetype-dev libpng-dev
-
 COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
 

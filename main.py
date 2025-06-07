@@ -235,6 +235,30 @@ async def calculate_from_form(
     """
     Recibe los datos del formulario, realiza los cálculos y muestra los resultados.
     """
+    # Validar la cantidad de varillas para evitar división por cero
+    if C12_Nvar_x < 2 or C13_Nvar_y < 2:
+        input_data = {
+            "C1_h_muro_m": C1_h_muro_m, "C2_L_muro_m": C2_L_muro_m,
+            "C3_em_base_mampost_cm": C3_em_base_mampost_cm,
+            "C4_lm_largo_mampost_cm": C4_lm_largo_mampost_cm,
+            "C5_e_separacion_mamp_cm": C5_e_separacion_mamp_cm,
+            "C6_e_mampost_cm": C6_e_mampost_cm,
+            "C24_b_conf_cm": C24_b_conf_cm, "C25_h_conf_cm": C25_h_conf_cm,
+            "C10_fy_kg_cm2": C10_fy_kg_cm2, "C18_fc_kg_cm2": C18_fc_kg_cm2,
+            "C21_fm_kg_cm2": C21_fm_kg_cm2, "C51_emu": C51_emu,
+            "C60_Es_kg_cm2": C60_Es_kg_cm2, "C11_fi_mm": C11_fi_mm,
+            "C12_Nvar_x": C12_Nvar_x, "C13_Nvar_y": C13_Nvar_y,
+            "C52_recubrimiento_cm": C52_recubrimiento_cm,
+            "C53_fiestrib_mm": C53_fiestrib_mm
+        }
+        # Renderiza la plantilla con un mensaje de error claro
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "results": None,
+            "inputs": input_data,
+            "error": "El número de varillas en cada dirección (X y Y) debe ser 2 o mayor para un cálculo válido."
+        })
+
     calculation_results = perform_calculations(
         C1_h_muro_m, C2_L_muro_m, C3_em_base_mampost_cm, C4_lm_largo_mampost_cm,
         C5_e_separacion_mamp_cm, C6_e_mampost_cm, C24_b_conf_cm, C25_h_conf_cm,

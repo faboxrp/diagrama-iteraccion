@@ -140,6 +140,12 @@
         <p style="text-align: center;">Autor: PABLO BAEZ</p>
         <p style="text-align: center;">(Adaptado para Web usando FastAPI - python)</p>
 
+        {% if error %}
+        <p style="color: red; background-color: #ffebee; border: 1px solid red; padding: 10px; border-radius: 4px;">{{
+            error }}
+        </p>
+        {% endif %}
+
         <form action="/" method="post">
             <div class="form-section">
                 <h2>Geometría</h2>
